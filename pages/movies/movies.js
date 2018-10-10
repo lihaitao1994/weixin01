@@ -31,7 +31,6 @@ Page({
         wx.request({
             url: url,
             success: function(res) {
-                console.log(res.data)
                 that.processDoubanData(res.data, settedKey, categoryTitle)
             },
             fail: function(error) {

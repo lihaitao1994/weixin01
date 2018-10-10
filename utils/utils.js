@@ -10,7 +10,20 @@ function convertToStarsArray(stars) {
     }
     return array;
 }
+function http(url,callBack){
+    var that = this
+    wx.request({
+        url: url,
+        success: function (res) {
+            callBack(res.data)
+        },
+        fail: function (error) {
+
+        }
+    })
+}
 
 module.exports = {
-    convertToStarsArray: convertToStarsArray
+    convertToStarsArray: convertToStarsArray,
+    http:http
 }
