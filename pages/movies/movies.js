@@ -17,7 +17,13 @@ Page({
         this.getMovieListData(inTheatersUrl, "inTheaters", "正在热映")
         this.getMovieListData(comingSoonUrl, "comingSoon", "即将上映")
         this.getMovieListData(top250Url, "top250", "豆瓣Top250")
+    },
 
+    onMoreTap: function(event) {
+        var category = event.currentTarget.dataset.category
+        wx.navigateTo({
+            url: 'more-movie/more-movie?category=' + category,
+        })
     },
 
     getMovieListData: function(url, settedKey, categoryTitle) {
@@ -52,7 +58,7 @@ Page({
         }
         var readyData = {}
         readyData[settedKey] = {
-            categoryTitle: categoryTitle, 
+            categoryTitle: categoryTitle,
             movies: movies
         }
         this.setData(readyData)
