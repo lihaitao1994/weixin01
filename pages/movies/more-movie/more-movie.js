@@ -2,9 +2,14 @@ var app = getApp()
 var util = require('../../../utils/utils.js')
 Page({
     data: {
-        data:{},
-        navigateTitle: ""
+        movies: {},
+        data: {},
+        navigateTitle: "",
+        requestUrl: "",
+        totalCount: 0,
+        isEmpty: true
     },
+
 
     onLoad: function(options) {
         var category = options.category
@@ -21,8 +26,29 @@ Page({
                 dataUrl = app.globalData.doubanBase + '/v2/movie/top250'
                 break
         }
+        this.data.requestUrl = dataUrl
         util.http(dataUrl, this.processDoubanData)
     },
+
+
+    onReachBottom: function(event) {
+        var nextUrl = this.data.requestUrl +
+            "?start=" + this.data.totalCount + "&count=20";
+        util.http(nextUrl, this.processDoubanData)
+        wx.showNavigationBarLoading()
+    },
+
+
+    // 下拉刷新
+    onPullDownRefresh: function(event) {
+        var refreshUrl = this.data.requestUrl + '?star=0&count=20';
+        this.data.movies = {}
+        this.data.isEmpty = true
+        util.http(refreshUrl, this.processDoubanData)
+        wx.stopPullDownRefresh()
+        wx.showNavigationBarLoading()
+    },
+
 
     processDoubanData: function(moviesDouban) {
         var movies = []
@@ -41,10 +67,23 @@ Page({
             }
             movies.push(temp)
         }
+        var totalMovies = {}
+
+        //如果要绑定新加载的数据，那么需要同旧的数据合并在一起
+        if (!this.data.isEmpty) {
+            totalMovies = this.data.movies.concat(movies)
+        } else {
+            totalMovies = movies
+            this.data.isEmpty = false
+        }
         this.setData({
-            movies: movies
+            movies: totalMovies
         })
+        this.data.totalCount += 20
+        wx.hideNavigationBarLoading()
+        wx.stopPullDownRefresh()
     },
+
 
     onReady: function(event) {
         wx.setNavigationBarTitle({
