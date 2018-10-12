@@ -6,7 +6,9 @@ Page({
     data: {
         inTheaters: {},
         comingSoon: {},
-        top250: {}
+        top250: {},
+        containerShow: true,
+        searchPanelShow: false
     },
 
     onLoad: function(event) {
@@ -33,11 +35,24 @@ Page({
             success: function(res) {
                 that.processDoubanData(res.data, settedKey, categoryTitle)
             },
-            fail: function(error) {
-
-            }
+            fail: function(error) {}
         })
     },
+
+    onCancelImgTap: function(event) {
+        this.setData({
+            containerShow: true,
+            searchPanelShow: false
+        })
+    },
+
+    onBindFocus: function(event) {
+        this.setData({
+            containerShow: false,
+            searchPanelShow: true
+        })
+    },
+
     processDoubanData: function(moviesDouban, settedKey, categoryTitle) {
         var movies = []
         for (var idx in moviesDouban.subjects) {
