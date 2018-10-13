@@ -2,7 +2,7 @@
 <import src="movie-grid/movie-grid-template.wxml" />
 <view class='search'>
     <icon type='search' class='search-img' size='13' color='#405f80'></icon>
-    <input type='text' placeholder='姑妈' placeholder-class='placeholder' bindfocus='onBindFocus' bindchange='onBindChange'></input>
+    <input type='text' placeholder='姑妈' placeholder-class='placeholder' bindfocus='onBindFocus' bindblur='onBindBlur'></input>
     <image wx:if='{{searchPanelShow}}' class='xx-img' src='/image/icon/xx.png' bindtap='onCancelImgTap'></image>
 </view>
 <view class='container' wx:if='{{containerShow}}'>
@@ -18,5 +18,5 @@
 </view>
 
 <view class='search-panel' wx:if='{{searchPanelShow}}'>
-    <template is='movieGridTemplate' />
+    <template is='movieGridTemplate' data='{{...searchResult}}'/>
 </view>

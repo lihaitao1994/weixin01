@@ -7,6 +7,7 @@ Page({
         inTheaters: {},
         comingSoon: {},
         top250: {},
+        searchResult: {},
         containerShow: true,
         searchPanelShow: false
     },
@@ -51,6 +52,12 @@ Page({
             containerShow: false,
             searchPanelShow: true
         })
+    },
+
+    onBindBlur: function(event) {
+        var text = event.detail.value
+        var searchUrl = app.globalData.doubanBase + '/v2/movie/search?q=' + text
+        this.getMovieListData(searchUrl, 'searchResult', '')
     },
 
     processDoubanData: function(moviesDouban, settedKey, categoryTitle) {
