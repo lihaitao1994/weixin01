@@ -29,6 +29,13 @@ Page({
         })
     },
 
+    onMovieTap: function(event) {
+        var movieId = event.currentTarget.dataset.movieid
+        wx.navigateTo({
+            url: 'movie-detail/movie-detail?id=' + movieId,
+        })
+    },
+
     getMovieListData: function(url, settedKey, categoryTitle) {
         var that = this
         wx.request({

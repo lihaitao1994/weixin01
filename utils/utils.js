@@ -10,20 +10,43 @@ function convertToStarsArray(stars) {
     }
     return array;
 }
-function http(url,callBack){
+
+function http(url, callBack) {
     var that = this
     wx.request({
         url: url,
-        success: function (res) {
+        success: function(res) {
             callBack(res.data)
         },
-        fail: function (error) {
+        fail: function(error) {
 
         }
     })
 }
 
+function convertToCastString(casts) {
+    var castsjoin = "";
+    for (var idx in casts) {
+        castsjoin = castsjoin + casts[idx].name + " / ";
+    }
+    return castsjoin.substring(0, castsjoin.length - 2);
+}
+
+function convertToCastInfos(casts) {
+    var castsArray = []
+    for (var idx in casts) {
+        var cast = {
+            img: casts[idx].avatars ? casts[idx].avatars.large : "",
+            name: casts[idx].name
+        }
+        castsArray.push(cast);
+    }
+    return castsArray;
+}
+
 module.exports = {
     convertToStarsArray: convertToStarsArray,
-    http:http
+    http: http,
+    convertToCastString: convertToCastString,
+    convertToCastInfos: convertToCastInfos
 }
